@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
+
 set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
+
+function publish_ports {
+PUBLISH_PORTS=`ip addr |grep "inet " |awk '{print $2}' |cut -f1 -d'/' |egrep  "(^127\.0\.0\.1)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^192\.168\.)" |awk '{print "--publish="$0":27017:27017"}'| tr -s '\r\n' ' '`
+}
 
 case "$1" in
   mongodb:install)
     echo "MongoDB installing..."
-    docker run -d -p 27017:27017 --name mongodb dockerfile/mongodb
+    publish_ports
+    docker run -d $PUBLISH_PORTS --name mongodb dockerfile/mongodb
     ;;
 
   help | mongodb:help)
