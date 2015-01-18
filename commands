@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
+
+case "$1" in
+  mongodb:install)
+    echo "MongoDB installing..."
+    docker run -d -p 27017:27017 --name mongodb dockerfile/mongodb
+    ;;
+
+  help | mongodb:help)
+    cat && cat<<EOF
+    mongodb:install                         Help for MongoDB install
+EOF
+    ;;
+
+  *)
+    exit $DOKKU_NOT_IMPLEMENTED_EXIT
+    ;;
+
+esac
