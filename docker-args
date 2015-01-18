@@ -8,7 +8,7 @@ STDIN=$(cat)
 output=""
 if [ "$2" = "deploy" ]; then
     #TODO: Check apps config before rewrite it
-    output="--env-file=$GLOBAL_ENV_FILE"
+    output=" --env-file=$GLOBAL_ENV_FILE"
 fi
 
 echo "$STDIN$output
