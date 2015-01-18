@@ -2,6 +2,8 @@
 
 set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 
+DOCKER_IMAGE_MONGODB='dockerfile/mongodb'
+
 function publish_ports {
 PUBLISH_PORTS=`ip addr |grep "inet " |awk '{print $2}' |cut -f1 -d'/' |egrep  "(^127\.0\.0\.1)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^192\.168\.)" |awk '{print "--publish="$0":27017:27017"}'| tr -s '\r\n' ' '`
 }
@@ -10,12 +12,19 @@ case "$1" in
   mongodb:install)
     echo "MongoDB installing..."
     publish_ports
-    docker run -d $PUBLISH_PORTS --name mongodb dockerfile/mongodb
+    docker run -d $PUBLISH_PORTS --name mongodb $DOCKER_IMAGE_MONGODB
     ;;
 
+  mongodb:delete)
+    echo "MongoDB deleting..."
+    ;; 
+  mongodb:console)
+    ;;
   help | mongodb:help)
     cat && cat<<EOF
-    mongodb:install                         Help for MongoDB install
+    mongodb:install                         Install MongoDB
+    mongodb:delete			    Delete MongoDB
+
 EOF
     ;;
 
