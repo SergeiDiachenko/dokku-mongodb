@@ -12,19 +12,43 @@ case "$1" in
   mongodb:install)
     echo "MongoDB installing..."
     publish_ports
+    #TODO: check installed or not
     docker run -d $PUBLISH_PORTS --name mongodb $DOCKER_IMAGE_MONGODB
+    #TODO: set globalconfig option
     ;;
 
   mongodb:delete)
     echo "MongoDB deleting..."
+    #TODO
     ;; 
   mongodb:console)
+    #TODO
+    ;;
+  rabbitmq:install)
+    #TODO
+    ;;
+  rabbitmq:delete)
+    #TODO
+    ;;
+  globalconfig)
+    #TODO
+    ;;
+  globalconfig:set)
+    #TODO
+    ;;
+  globalconfig:unset)
+    #TODO
     ;;
   help | mongodb:help)
     cat && cat<<EOF
     mongodb:install                         Install MongoDB
-    mongodb:delete			    Delete MongoDB
-
+    mongodb:delete		    	    Delete MongoDB
+    mongodb:console
+    rabbitmq:install
+    rabbitmq:delete
+    globalconfig
+    globalconfig:set
+    globalconfig:unset
 EOF
     ;;
 
